@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+    <head>
+
+        <!-- Possivel alteração de linguagem {MANUAL} -->
+        <meta UTF-8="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        
+        <style>
+
+            /* Estilização do renderizador inicial */
+            *{
+                margin: 0px;
+                padding: 0px;
+            }
+
+            html, body, div#global-panel{
+                height: 100%;
+                overflow: hidden;
+            }
+
+            canvas{
+                width: 100%;
+                height: 100%;
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <!-- Janela que engloba a pagina completa -->
+        <div id="global-panel">
+
+            <!-- Renderizador composto da pagina, por padrão cobre toda a tela -->
+            <canvas class="renderer_screen" id="renderer_screen">
+                Caso essa mensagem esteja aparecendo, o motor não tem suporte.
+            </canvas>
+
+        </div>
+
+    </body>
+    
+</html>
