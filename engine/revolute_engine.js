@@ -10,7 +10,8 @@ class Revolute{
         this._containerActionEnvoriment = [];
         this._physicEngine = null;
         this._physicCategory = {
-            dinamic: this.addPhysicDinamic.bind(this)
+            dinamic: this.addPhysicDinamic.bind(this),
+            static: this.addPhysicStatic.bind(this)
         };
     }
 
@@ -30,8 +31,9 @@ class Revolute{
                     item.dx ? item.dx : 0,
                     item.dy ? item.dy : 0
                 );
-                // this._physicEngine.dinamicPhysic(0);
-                this._physicCategory[item.physic](item.UID);
+                if(item.physic !== null){
+                    this._physicCategory[item.physic](item.UID);
+                }                
             }
         }, this._attRate);
         
@@ -89,20 +91,74 @@ class Revolute{
         this._physicEngine.dinamicPhysic(data);
     }
 
-    getActionObjects(){
-    // Listar objetos que possuem ações
-        return this._containerActionEnvoriment;
+    addPhysicStatic(data){
+        this._physicEngine.staticPhysic(data);
     }
 
-    getWorldObjects(){
-    // Listar objetos do bloco mundial
-        return this._containerWorldEnvoriment;
+    getObjects(target = null){
+    /* 
+    Listar todos os objetos da cena
+    {target} Caso passe um valor ele ira procurar a informação no objeto solicitado
+    */
+        if(target !== null){
+            return this._containerActionEnvoriment.filter((item) => 
+                item.name === target ||
+                item.color === target ||
+                item.physic === target ||
+                item.UID === target ||
+                item.px === target ||
+                item.py === target ||
+                item.dx === target ||
+                item.dy === target
+            );
+        }
+        else{
+            return this._containerActionEnvoriment;
+        }
     }
 
-    addActionObject(item = {UID: this._actualUID, name: 'noname', px: 32, py: 32, dx: 32, dy: 32, color: 'black', physic: 'dinamic'}){
-    // Cria um objeto interativo com base no objeto passado, por padrão gera um cubo preto.
-        this._containerActionEnvoriment.push(item);
-        this._actualUID += 1;
+    addObject(
+        name = null,
+        px = null,
+        py = null,
+        dx = null,
+        dy = null,
+        color = null,
+        physic = null,
+        instance = null,
+    ){
+    /* 
+    Cria um objeto na cena com base nos parametros passados
+    {instance} Nessa variavel opcional você passa um objeto montado que será usado para gerar um objeto
+    */
+        if(instance != null){
+            instance['UID'] = this._actualUID;
+            this._containerActionEnvoriment.push(instance);
+        }
+        else{
+            const dataObject = {
+                UID : this._actualUID,
+                name : name != null ? name : "NoName",
+                px : px != null ? px : 0,
+                py : py != null ? py : 0,
+                dx : dx != null ? dx : 32,
+                dy : dx != null ? dy : 32,
+                color : color != null ? color : 'black',
+                physic : physic != null ? physic : null,
+            };
+            this._containerActionEnvoriment.push(dataObject);
+        }
+        this._actualUID += 1;        
+    }
+
+    setScene(data){
+        for(const item of data){
+            item['UID'] = this._actualUID;
+            this._containerActionEnvoriment.push(item)
+            console.log(`ADD: ${item.name} adicionado com o UID ${item.UID}`);
+            this._actualUID += 1;
+        }
+        console.log('DONE: Cenario carregado com sucesso');
     }
 
 }

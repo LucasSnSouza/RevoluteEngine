@@ -39,14 +39,17 @@
         <script src="engine/revolute_engine.js"></script>
         <script src="engine/revolute_physic.js"></script>
 
+        <script src="storage/scenaries/default_scenarie.js"></script>
+
         <script>
 
-            const ENGINE = new Revolute(document.getElementById('renderer_screen'), 100);
+            const ENGINE = new Revolute(document.getElementById('renderer_screen'), 10);
             const PHYSIC = new RevolutePhysic(ENGINE);
             
             ENGINE.setRendererScale();
             ENGINE.setPhysicEngine(PHYSIC);
-            ENGINE.Drawing();
+            ENGINE.Drawing();  
+            ENGINE.setScene(default_scene);
 
         </script>
 
