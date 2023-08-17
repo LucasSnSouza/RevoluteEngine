@@ -38,6 +38,8 @@
 
         <script src="engine/revolute_engine.js"></script>
         <script src="engine/revolute_physic.js"></script>
+        <script src="engine/revolute_inputs.js"></script>
+        <script src="engine/revolute_behavior.js"></script>
 
         <script src="storage/scenaries/default_scenarie.js"></script>
 
@@ -45,9 +47,12 @@
 
             const ENGINE = new Revolute(document.getElementById('renderer_screen'), 10);
             const PHYSIC = new RevolutePhysic(ENGINE);
+            const INPUTS = new RevoluteInputs();
+            const BEHAVIOR = new RevoluteBehavior(ENGINE, INPUTS);
             
             ENGINE.setRendererScale();
             ENGINE.setPhysicEngine(PHYSIC);
+            ENGINE.setBehaviorEngine(BEHAVIOR);
             ENGINE.Drawing();  
             ENGINE.setScene(default_scene);
 

@@ -8,11 +8,15 @@ class Revolute{
         this._attRate = attRate;
         this._containerWorldEnvoriment = [];
         this._containerActionEnvoriment = [];
+        this._behaviorEngine = null;
         this._physicEngine = null;
         this._physicCategory = {
             dinamic: this.addPhysicDinamic.bind(this),
             static: this.addPhysicStatic.bind(this)
         };
+        this._behaviorCategory = {
+            plataformMoviment: this.addBehaviorPlataformMoviment.bind(this),
+        }
     }
 
     Drawing(){
@@ -33,7 +37,10 @@ class Revolute{
                 );
                 if(item.physic !== null){
                     this._physicCategory[item.physic](item.UID);
-                }                
+                }
+                if(item.behavior !== null){
+                    this._behaviorCategory[item.behavior](item.UID);
+                }
             }
         }, this._attRate);
         
@@ -82,6 +89,19 @@ class Revolute{
         this.refreshDrawing();
     }
 
+    setBehaviorEngine(instace){
+    // Adiciona o motor fisico ao renderizador
+        this._behaviorEngine = instace;
+    }
+
+    addBehaviorPlataformMoviment(data){
+    // Teste
+        let findedIndex = this._containerActionEnvoriment.findIndex((target) => target.UID === data);
+        if(this._containerActionEnvoriment[findedIndex].playable === true){
+            this._behaviorEngine.plataformMoviment(data);
+        }
+    }
+
     setPhysicEngine(instace){
     // Adiciona o motor fisico ao renderizador
         this._physicEngine = instace;
@@ -119,12 +139,14 @@ class Revolute{
 
     addObject(
         name = null,
+        playable = false,
         px = null,
         py = null,
         dx = null,
         dy = null,
         color = null,
         physic = null,
+        behavior = null,
         instance = null,
     ){
     /* 
@@ -139,12 +161,14 @@ class Revolute{
             const dataObject = {
                 UID : this._actualUID,
                 name : name != null ? name : "NoName",
+                playable: playable ? playable : false,
                 px : px != null ? px : 0,
                 py : py != null ? py : 0,
                 dx : dx != null ? dx : 32,
                 dy : dx != null ? dy : 32,
                 color : color != null ? color : 'black',
                 physic : physic != null ? physic : null,
+                behavior : behavior != null ? behavior : null,
             };
             this._containerActionEnvoriment.push(dataObject);
         }
