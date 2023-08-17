@@ -34,6 +34,6 @@ let default_scene =
         dy: 32,
         color: "red",
         physic: "dinamic",
-        behavior: null,
+        behavior: "plataformMoviment",
     },
 ];
